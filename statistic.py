@@ -86,8 +86,6 @@ def calc_moda(nums_copy):
     nums_values = nums_list[1::2]
     max_value = max(nums_values)
     indx = []
-    print(nums_list)
-    print(nums_values)
     for c, i in enumerate(nums_values):
         if i == max_value and c == 0:
             moda.append(nums_list[0])
@@ -95,7 +93,41 @@ def calc_moda(nums_copy):
             moda.append(nums_list[c*2])
     return moda
 
-numbers = "32 65 65 65 45 ---- 65bugjy32 23 32 23 43 43 23"
+# input should be list of numbers
+def calc_median(nums_copy):
+    length = len(nums_copy)
+    if length % 2 == 0:
+        n1 = nums_copy[int(length / 2)]
+        n2 = nums_copy[int((length / 2) + 1)]
+        median = (n1 + n2) / 2
+    else:
+        median = nums_copy[int((length + 1) / 2)]
+    return median
+
+# input should be list of numbers
+def calc_quartili(nums_copy):
+    q2 = calc_median(nums_copy)
+    length = len(nums_copy)
+    if q2 in nums_copy:
+        nums_1 = nums_copy[:int((length-1) / 2):]
+        q1 = calc_median(nums_1)
+        nums_3 = nums_copy[int((length-1) / 2) ::]
+        q3 = calc_median(nums_3)
+    else:
+        nums_1 = nums_copy[:int(length / 2):]
+        q1 = calc_median(nums_1)
+        nums_3 = nums_copy[int(length / 2) ::]
+        q3 = calc_median(nums_3)
+    quartili = {}
+    quartili["Q0"] = nums_copy[0]
+    quartili["Q1"] = q1
+    quartili["Q2"] = q2
+    quartili["Q3"] = q3
+    quartili["Q4"] = nums_copy[-1]
+    return quartili
+    
+
+numbers = "32 65 45 42. 6 ---- 65bugjy32 23 32 23 43 43 23"
 carattere = "Età"
 
 caratteri = turn_list(numbers)
@@ -110,5 +142,12 @@ cum_freq = calc_cum_freq(rel_freq)
 
 moda = calc_moda(abs_freq)
 
+quartili = calc_quartili(caratteri)
+
+median = calc_median(caratteri)
+
+
+print(caratteri)
 print(abs_freq)
-print(moda)
+print(median)
+print(quartili)
