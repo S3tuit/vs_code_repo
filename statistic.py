@@ -127,7 +127,7 @@ def calc_quartili(nums_copy):
     return quartili
     
 
-numbers = "32 65 45 42. 6 ---- 65bugjy32 23 32 23 43 43 23"
+numbers = "32 65 45 42. 67 8 6 ---- 65bugjy32 23 32 23 43 43 23"
 carattere = "Età"
 
 caratteri = turn_list(numbers)
