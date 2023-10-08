@@ -78,19 +78,9 @@ def calc_avg(nums_copy):
 # that is if there's more than one moda
 def calc_moda(nums_copy):
     nums = nums_copy.copy()
-    nums_list = []
-    moda = []
-    for k, v in nums.items():
-        nums_list.append(k)
-        nums_list.append(v)
-    nums_values = nums_list[1::2]
-    max_value = max(nums_values)
-    indx = []
-    for c, i in enumerate(nums_values):
-        if i == max_value and c == 0:
-            moda.append(nums_list[0])
-        elif i == max_value and c != 0:
-            moda.append(nums_list[c*2])
+    value_list = [i for i in nums_copy.values()]
+    max_value = max(value_list)
+    moda = {key: value for (key, value) in nums.items() if value == max_value}
     return moda
 
 # input should be list of numbers
@@ -127,7 +117,7 @@ def calc_quartili(nums_copy):
     return quartili
     
 
-numbers = "32 65 45 42. 67 8 6 ---- 65bugjy32 23 32 23 43 43 23"
+numbers = "32 65 45 42. 67 8 6 ---- 65bugjy32 23 32 23 43  43 23 43 43 23"
 carattere = "Età"
 
 caratteri = turn_list(numbers)
@@ -149,5 +139,5 @@ median = calc_median(caratteri)
 
 print(caratteri)
 print(abs_freq)
-print(median)
+print(moda)
 print(quartili)
