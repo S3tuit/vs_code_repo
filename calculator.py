@@ -9,15 +9,24 @@ class Num_button(Button):
         super().__init__(window,
                          bg="silver",
                          fg="black",
-                         text=num)
+                         text=num,
+                         command=self.button_print)
+        self.num = int(num)
         self.grid(row=row_n,
                   column=col_n,
                   sticky="ew")
 
-def label_top_f():
+    def button_print(self):
+        global label_top
 
+        current_text = label_top.cget("text")
+        new_text = str(current_text) + str(self.num)
+        label_top.config(text=new_text)
+
+def label_top_f():
+    global label_top
     label_top = Label(window,
-                      text="0",
+                      text="",
                       bg="black",
                       fg="#00ff00",
                       pady=13,
@@ -43,6 +52,5 @@ num6 = Num_button("6", 2, 2)
 num7 = Num_button("7", 3, 0)
 num8 = Num_button("8", 3, 1)
 num9 = Num_button("9", 3, 2)
-num_plus = Num_button("+", 1, 4)
 
 window.mainloop()
