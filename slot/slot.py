@@ -27,7 +27,6 @@ class Casino:
                 self.users_info = pickle.load(file)
                 self.users_list = list(self.users_info.keys())
                 self.users_name_list = list(users_name_list)
-
                 for i in self.users_info.keys():
                     self.users_name_list.append(self.users_info[i]["user_name"])
         except (FileNotFoundError, EOFError) as e:
@@ -71,8 +70,25 @@ class Casino:
             print("User registered successfully!")
             sui.update_users(user_id, new_user_info)
 
-    def delete_profile():
-        pass
+    def delete_profile(self):
+        user_name_del = input("Username of the account you wish to delete: ")
+        count = 0
+
+#check if there's an account with that username
+        for i in self.users_info.keys():
+            if user_name_del in self.users_info[i]["user_name"]:
+                count += 1
+                password_del = input("Insert the password: ")
+#check if password correspond
+                if password_del == self.users_info[i]["password"]:
+                    sui.delete_user(i)
+                    print("User deleted!")
+                else:
+                    print("Password does not correspond!!")
+            else:
+                pass
+        if count == 0:
+            print("This username doesn't have an account :()")
 
     def play_slot():
         pass
@@ -87,4 +103,4 @@ class Casino:
 
 casino = Casino()
 
-casino.user_registration()
+casino.delete_profile()
