@@ -88,17 +88,41 @@ def calc_moda(nums_copy):
     return moda
 
 # input should be list of numbers or cum freq.
-def calc_median(nums_copy, q):
+def calc_median(nums_copy, q, past_median):
     nums = nums_copy.copy()
     if isinstance(nums, list):
         length = len(nums)
         nums.sort()
-        if length % 2 == 0:
+        if q == 1 or q == 3:
+            length2 = length // 2
+        else:
+            length2 = length
+        if length2 % 2 == 0:
+            if q == 1:
+                nums = nums[:len(nums) // 2]
+            if q == 3:
+                nums = nums[len(nums) // 2:]
+            length = len(nums)
             n1 = nums[length // 2-1]
             n2 = nums[length // 2]
             median = (n1 + n2) / 2
         else:
-            median = nums[length // 2]
+            if past_median in nums and q == 1:
+                length2 = len(nums) // 2
+                nums2 = nums[:length2]
+            elif past_median in nums and q == 3:
+                length2 = (len(nums) // 2) + 1
+                nums2 = nums[length2:]
+            elif past_median not in nums and q == 1:
+                nums2 = nums[:len(nums) // 2]
+            elif past_median not in nums and q == 3:
+                nums2 = nums[len(nums) // 2:]
+            else:
+                nums2 = nums
+            length = len(nums2)
+            print(q)
+            print(nums2)
+            median = nums2[length // 2]
         return median
 
     elif isinstance(nums, dict):
@@ -120,17 +144,25 @@ def calc_median(nums_copy, q):
 
 
 # input should be list of numbers or cum freq.
-def calc_quartili(nums_copy):
-    nums = nums_copy.copy()
+def calc_quartili(nums):
     length = len(nums)
     quartili = {}
     if isinstance(nums, dict):
         key_nums = list(nums.keys())
+        past_median = calc_median(nums, 2, None)
         quartili["Q0"] = key_nums[0]
-        quartili["Q1"] = calc_median(nums, 1)
-        quartili["Q2"] = calc_median(nums, 2)
-        quartili["Q3"] = calc_median(nums, 3)
+        quartili["Q1"] = calc_median(nums, 1, past_median)
+        quartili["Q2"] = past_median
+        quartili["Q3"] = calc_median(nums, 3, past_median)
         quartili["Q4"] = key_nums[-1]
+        return quartili
+    if isinstance(nums, list):
+        past_median = calc_median(nums, 2, None)
+        quartili["Q0"] = nums[0]
+        quartili["Q1"] = calc_median(nums, 1, past_median)
+        quartili["Q2"] = calc_median(nums, 2, None)
+        quartili["Q3"] = calc_median(nums, 3, past_median)
+        quartili["Q4"] = nums[-1]
         return quartili
 
 # input should be list abs freq.
@@ -151,7 +183,7 @@ def calc_variabilita(nums_copy):
 # input should be list abs freq.
 def calc_scost_mediana_perc(nums_copy):
     nums = nums_copy.copy()
-    mediana = calc_median(nums, 1)
+    mediana = calc_median(nums, 1, None)
     summ = 0
     length = sum(nums.values())
     media = calc_avg(nums)
@@ -186,7 +218,7 @@ def give_overview_box_plot(nums_copy):
     nums_cum_freq = calc_cum_freq(nums_rel_freq)
     media = calc_avg(nums_abs_freq)
     moda = calc_moda(nums_abs_freq)
-    quartili = calc_quartili(nums_cum_freq)
+    quartili = calc_quartili(nums_copy)
     coeff_variazione, varianza, scarto_q_medio = calc_variabilita(nums_abs_freq)
     scost_mediana_perc = calc_scost_mediana_perc(nums_abs_freq)
     index_fisher = calc_asimmetria(nums_abs_freq)
@@ -213,7 +245,7 @@ def give_overview_box_plot(nums_copy):
 
 
 #numbers = [26, 28, 29, 29, 30, 32, 32, 33, 35, 36, 36, 37,37,37,39,39,42,42,43,47,48]
-#numbers = [0,2,6,8,11,15,17,17,18,18,19,19,20,23,23,23,24,26,27,27,28]
-numbers = [0.4, 0.9, 3.8, 0.4, 2.2, 1.8, 0.4, 3.8, 1.4, 1, 0.7, 4.3, 1.3, 0.1, 0.3, 0.5, 1, 4.1, 1.6, 2.7, 0.6 ]
+#numbers = [24.4,26.7,28.3,21.4,22,27.9,24.4,26.9,26.7,26.7,21.2,25,22.8,23.2]
+numbers = [9.4,9.6,5.6,7,7.9,6.3,7.5,6.2,5.7,7.6,9.4,7.2,9.4,8.6]
 
 give_overview_box_plot(numbers)

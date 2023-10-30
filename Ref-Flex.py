@@ -15,8 +15,8 @@ def label_1():
 
 def sub_heading():
 
-    global icon
-    icon = PhotoImage(file="lighting.png")
+    #global icon
+    #icon = PhotoImage(file="lighting.png")
 
     label = Label(window,
                   text="... and then flex",
@@ -24,7 +24,6 @@ def sub_heading():
                   fg="silver",
                   padx=13,
                   pady=7,
-                  image=icon,
                   compound="right",
                   bg="black",
                   )
